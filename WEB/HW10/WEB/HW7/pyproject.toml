@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "my-homework7"
+version = "0.1.0"
+description = "its my homework from GoIT Python WEB"
+authors = ["Kagev Heorhii"]
+readme = "README.md"
+packages = [{include = "my_homework7"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+termcolor = "^2.3.0"
+sqlalchemy = "^2.0.19"
+faker = "^19.3.0"
+colorama = "^0.4.6"
+psycopg2 = "^2.9.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

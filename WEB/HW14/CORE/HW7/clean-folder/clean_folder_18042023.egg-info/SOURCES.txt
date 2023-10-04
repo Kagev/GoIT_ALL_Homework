@@ -1,0 +1,14 @@
+LICENCE
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+clean-folder/__init__.py
+clean-folder/clean.py
+clean-folder/file_parser.py
+clean-folder/normalize.py
+clean_folder_18042023.egg-info/PKG-INFO
+clean_folder_18042023.egg-info/SOURCES.txt
+clean_folder_18042023.egg-info/dependency_links.txt
+clean_folder_18042023.egg-info/requires.txt
+clean_folder_18042023.egg-info/top_level.txt

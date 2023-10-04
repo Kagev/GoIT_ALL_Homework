@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="enabledOnReformat" value="true" />
+    <option name="executionMode" value="BINARY" />
+    <option name="pathToExecutable" value="$USER_HOME$/.local/bin/black" />
+    <option name="sdkUUID" value="798ef281-2298-496f-91ac-eb93b2b66ff8" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (HW6)" project-jdk-type="Python SDK" />
+</project>

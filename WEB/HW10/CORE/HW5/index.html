@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exchange Rates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        #get-rates-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #input-box {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #command-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        #send-btn {
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #currency-table {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Exchange Rates</h1>
+    <div id="chat-box"></div>
+    <div id="input-box">
+        <input type="text" id="command-input" placeholder="Enter command...">
+        <button id="send-btn">Send</button>
+    </div>
+
+    <div id="currency-table"></div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const commandInput = document.getElementById('command-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        const ws = new WebSocket('ws://localhost:8765');
+
+        ws.onmessage = event => {
+            const message = event.data;
+            const p = document.createElement('p');
+            p.textContent = message;
+            chatBox.appendChild(p);
+
+            try {
+                const response = JSON.parse(message);
+                const currencyTable = document.getElementById('currency-table');
+                currencyTable.innerHTML = '';
+                const table = createTable(response);
+                currencyTable.appendChild(table);
+            } catch (error) {
+                // If the response is not JSON, ignore the error
+            }
+        };
+
+        function createTable(data) {
+            const table = document.createElement('table');
+
+            for (const rateData of data) {
+                for (const dateStr in rateData) {
+                    const exchangeRate = rateData[dateStr];
+                    const tableHeader = document.createElement('tr');
+                    const th = document.createElement('th');
+                    th.colSpan = 3;
+                    th.textContent = `Exchange Rates for ${dateStr}`;
+                    tableHeader.appendChild(th);
+                    table.appendChild(tableHeader);
+
+                    const headers = document.createElement('tr');
+                    const thCurrency = document.createElement('th');
+                    const thSaleRate = document.createElement('th');
+                    const thPurchaseRate = document.createElement('th');
+                    thCurrency.textContent = 'Currency';
+                    thSaleRate.textContent = 'Sale Rate';
+                    thPurchaseRate.textContent = 'Purchase Rate';
+                    headers.appendChild(thCurrency);
+                    headers.appendChild(thSaleRate);
+                    headers.appendChild(thPurchaseRate);
+                    table.appendChild(headers);
+
+                    for (const currency in exchangeRate) {
+                        const row = document.createElement('tr');
+                        const tdCurrency = document.createElement('td');
+                        const tdSaleRate = document.createElement('td');
+                        const tdPurchaseRate = document.createElement('td');
+                        tdCurrency.textContent = currency;
+                        tdSaleRate.textContent = exchangeRate[currency].sale || '-';
+                        tdPurchaseRate.textContent = exchangeRate[currency].purchase || '-';
+                        row.appendChild(tdCurrency);
+                        row.appendChild(tdSaleRate);
+                        row.appendChild(tdPurchaseRate);
+                        table.appendChild(row);
+                    }
+                }
+            }
+
+            return table;
+        }
+
+        sendBtn.addEventListener('click', () => {
+            const command = commandInput.value.trim();
+            if (command !== '') {
+                ws.send(command);
+                commandInput.value = '';
+                const p = document.createElement('p');
+                p.textContent = `You: ${command}`;
+                chatBox.appendChild(p);
+            }
+        });
+
+        commandInput.addEventListener('keypress', event => {
+            if (event.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

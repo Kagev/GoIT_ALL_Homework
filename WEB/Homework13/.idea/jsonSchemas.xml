@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JsonSchemaMappingsProjectConfiguration">
+    <state>
+      <map>
+        <entry key="Course Configuration">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="Course Configuration" />
+              <option name="relativePathToSchema" value="jar://$APPLICATION_PLUGINS_DIR$/JetBrainsAcademy/lib/JetBrainsAcademy-2023.8-2023.2-460.jar!/yaml/course-schema.json" />
+              <option name="schemaVersion" value="JSON Schema version 7" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="docker-compose.yml" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+      </map>
+    </state>
+  </component>
+</project>
